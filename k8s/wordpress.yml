@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: wordpress
-          image: diskoproject/wordperss-new-image:latest
+          image: diskoproject/new-web-wordpress:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 80
