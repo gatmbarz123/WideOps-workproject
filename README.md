@@ -166,7 +166,7 @@ The **HorizontalPodAutoscaler** didn’t scale pods as expected initially. Troub
 These challenges were valuable learning experiences and helped deepen my understanding of **GCP**, **Kubernetes**, and **cloud infrastructure management**.
 
 ---
-![WebSite Photos](Photo/web1.jpg)
+![WebSite Photos](Photo/web1.png)
 
 ---
-![More Photos](Photo/web2.jpg)
+![More Photos](Photo/web2.png)
