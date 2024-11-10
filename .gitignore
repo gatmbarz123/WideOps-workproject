@@ -1,0 +1,3 @@
+Infrastructure-TF/.terraform
+Infrastructure-TF/.terraform.lock.hcl
+Infrastructure-TF/var.tfvars
