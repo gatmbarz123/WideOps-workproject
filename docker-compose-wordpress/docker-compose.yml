@@ -4,14 +4,15 @@ services:
   wordpress:
     image: wordpress:6.4.3-apache
     ports:
-      - "8080:80"
+      - "8085:80"
     environment:
-      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_HOST: db:3306
       WORDPRESS_DB_USER: wordpress
       WORDPRESS_DB_PASSWORD: wordpress_password
       WORDPRESS_DB_NAME: wordpress
+     
     volumes:
-      - wordpress_data:/var/www/html
+      - ./wp-content:/var/www/html
     depends_on:
       - db
 

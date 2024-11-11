@@ -4,6 +4,7 @@ resource "google_compute_global_address" "private_ip_address" {
   address_type  = "INTERNAL"
   prefix_length = 16
   network       = var.network_id
+  depends_on = [var.network_id]
 }
 
 resource "google_service_networking_connection" "private_vpc_connection" {

@@ -1,6 +1,9 @@
 resource "google_compute_network" "vpc" {
   name                    = "wordpress-vpc"
   auto_create_subnetworks = false
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "google_compute_subnetwork" "subnet" {
