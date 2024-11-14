@@ -1,10 +1,9 @@
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: wordpress
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
       app: wordpress
@@ -14,33 +13,38 @@ spec:
         app: wordpress
     spec:
       containers:
-        - name: wordpress
-          image: diskoproject/new-web-wordpress:latest
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 80
-              name: http
-          env:
-            - name: WORDPRESS_DB_HOST
-              value: "10.143.0.3:3306"  
-            - name: WORDPRESS_DB_NAME
-              value: "wordpress"
-            - name: WORDPRESS_DB_USER
-              value: "wordpress"
-            - name: WORDPRESS_DB_PASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: wordpress-secrets
-                  key: db-password
-          volumeMounts:
-            - name: wordpress-data
-              mountPath: /var/www/html
-      volumes:
+      - name: wordpress
+        image: diskoproject/new-web-wordpress:latest
+        resources:            
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+          limits:
+            cpu: "250m"
+            memory: "512Mi"
+        ports:
+        - containerPort: 80
+          name: http
+        env:
+        - name: WORDPRESS_DB_HOST
+          value: "10.95.0.3:3306"
+        - name: WORDPRESS_DB_NAME
+          value: "wordpress"
+        - name: WORDPRESS_DB_USER
+          value: "wordpress"
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: wordpress-secrets
+              key: db-password
+        volumeMounts:
         - name: wordpress-data
-          persistentVolumeClaim:
-            claimName: wordpress-pvc-new
+          mountPath: /var/www/html
+      volumes:
+      - name: wordpress-data
+        persistentVolumeClaim:
+          claimName: wordpress-data
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -48,13 +52,13 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: http
-      port: 80
-      targetPort: 80
-      protocol: TCP
-    - name: https
-      port: 443
-      targetPort: 80
-      protocol: TCP
+  - name: http
+    port: 80
+    targetPort: 80
+    protocol: TCP
+  - name: https
+    port: 443
+    targetPort: 80
+    protocol: TCP
   selector:
     app: wordpress
