@@ -4,8 +4,11 @@ terraform {
       source  = "hashicorp/google"
       version = ">= 3.5.0"
     }
+    null = {
+      source  = "hashicorp/null"
+      version = "~> 3.0"
+    }
   }
-
   backend "gcs" {
     bucket = "vpc-peering-bar-project"
     prefix = "tfstate.json"
@@ -49,6 +52,10 @@ module "sql" {
   db_name      = var.db_name
   db_user      = var.db_user
   db_password  = var.db_password
+  gke_id      = module.gke.cluster_id
+  node_id     =module.gke.node_id
 
-  depends_on = [module.gke]
+
+  
+  
 }

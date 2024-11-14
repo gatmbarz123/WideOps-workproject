@@ -22,3 +22,13 @@ variable "db_password" {
   description = "Database Password"
   type        = string
 }
+
+variable "gke_id" {
+  description = "Cluster ID"
+  type        = string
+}
+
+variable "node_id" {
+  description = "Node ID"
+  type        = string
+}

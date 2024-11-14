@@ -10,15 +10,17 @@ resource "google_compute_global_address" "private_ip_address" {
 resource "google_service_networking_connection" "private_vpc_connection" {
   network                 = var.network_id
   service                 = "servicenetworking.googleapis.com"
-  reserved_peering_ranges = [google_compute_global_address.private_ip_address.name]
+  reserved_peering_ranges = [google_compute_global_address.private_ip_address.name ]
+
+  lifecycle {
+    create_before_destroy = true
+  }
 }
 
 resource "google_sql_database_instance" "wordpress" {
   name             = "wordpress-mysql"
   database_version = "MYSQL_8_0"
   region           = var.region
-
-  depends_on = [google_service_networking_connection.private_vpc_connection]
 
   settings {
     tier = "db-f1-micro"
@@ -27,15 +29,12 @@ resource "google_sql_database_instance" "wordpress" {
       private_network = var.network_id
     }
   }
-
+  depends_on=[google_service_networking_connection.private_vpc_connection]
   deletion_protection = false 
 
-  lifecycle {
-    prevent_destroy = false
-  }
-
-
 }
+
+
 
 resource "google_sql_database" "wordpress" {
   name     = var.db_name

@@ -26,6 +26,7 @@ resource "google_container_cluster" "primary" {
     horizontal_pod_autoscaling {
       disabled = false
     }
+
   }
 
   master_authorized_networks_config {
@@ -34,14 +35,20 @@ resource "google_container_cluster" "primary" {
       display_name = "all"
     }
   }
+
 }
 
 resource "google_container_node_pool" "primary_nodes" {
   name       = "${var.cluster_name}-node-pool"
   location   = var.zone
   cluster    = google_container_cluster.primary.name
-  node_count = 2
+  initial_node_count = 2
 
+  autoscaling {
+    min_node_count = 2
+    max_node_count = 10
+  }
+ 
   node_config {
     machine_type = "e2-medium"
 
@@ -49,4 +56,5 @@ resource "google_container_node_pool" "primary_nodes" {
       "https://www.googleapis.com/auth/cloud-platform"
     ]
   }
+
 }
