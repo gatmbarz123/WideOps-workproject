@@ -82,27 +82,23 @@ To enable dynamic scaling, I implemented **Horizontal Pod Autoscaling (HPA)** to
 │   ├── horizontal.yml                
 │   ├── ingress.yml          
 │   ├── nginx-values.yml          
-│   ├── storage-class.yml
 │   ├── wordpress-pvc.yml
 │   ├── wordpress-secrets.yml
 │   ├── wordpress.yml
 
 ```
-### 1. **Storage Class**
 
-A **StorageClass** was created to define the type of storage required for WordPress pods, ensuring consistent provisioning of resources.
-
-### 2. **Persistent Volume Claim (PVC)**
+### 1. **Persistent Volume Claim (PVC)**
 ```
 NAME                STATUS    VOLUME                                     CAPACITY   ACCESS MODES   STORAGECLASS   VOLUMEATTRIBUTESCLASS   
 wordpress-pvc-new   Bound     pvc-8684a76e-9a6e-46c3-b309-fefd2b4d058f   10Gi       RWO            standard-rwo   <unset>                 
 ```
 **PVCs** were used to request persistent storage for WordPress, ensuring that data (posts, media files) persists across pod restarts.
 
-### 3. **Secrets Management**
+### 2. **Secrets Management**
 Sensitive data such as database credentials and environment variables were securely stored using **Kubernetes Secrets**, ensuring no sensitive data is exposed.
 
-### 4. **Services **
+### 3. **Services **
 ```
 NAME         TYPE        CLUSTER-IP    EXTERNAL-IP   PORT(S)          
 kubernetes   ClusterIP   10.2.0.1      <none>        443/TCP          
@@ -110,7 +106,7 @@ wordpress    ClusterIP   10.2.110.58   <none>        80/TCP,443/TCP
 ```
 A **ClusterIP Service** was created to expose the WordPress application to the outside world. The service routes traffic to healthy pods, and **health checks** ensure only healthy instances are targeted.
 
-### 5. **Deployment Configuration**
+### 4. **Deployment Configuration**
 ```
 NAME                         READY   STATUS    RESTARTS   
 wordpress-5c8557978c-8z2dj   1/1     Running   0
@@ -121,7 +117,7 @@ The **Deployment YAML** file includes the configuration for both **WordPress** a
 
 ---
 
-## **Ingress and Nginx Configuration**
+## 5. **Ingress and Nginx Configuration**
 
 Once the pods were set up to receive **HTTP/HTTPS traffic**, I configured the **Nginx Ingress Controller** using **Helm**. The **Ingress** efficiently routes incoming traffic to WordPress via the domain `bagum.shop`.
 ```
@@ -133,7 +129,7 @@ wordpress-ingress   external-nginx   bar.bagum.shop   34.57.12.123   80
 
 ---
 
-## **Auto-Scaling with HorizontalPodAutoscaler**
+## 6. **Auto-Scaling with HorizontalPodAutoscaler**
 
 To handle fluctuating traffic, I implemented **HorizontalPodAutoscaler (HPA)** to adjust the number of pods based on CPU usage. The HPA ensures that the application can scale efficiently during high traffic periods, while scaling down when demand decreases.
 
@@ -157,8 +153,8 @@ Configuring **VPC Peering** and ensuring secure communication between **CloudSQL
 ### 2. **Ingress Controller Setup**
 Configuring the **Nginx Ingress Controller** to handle traffic routing and link it correctly to the domain `bagum.shop` required multiple iterations and adjustments to the Ingress and DNS settings.
 
-### 3. **Persistent Storage Configuration**
-Setting up **Persistent Volumes (PVs)** and ensuring data persistence across pod restarts was tricky, requiring debugging of PVCs and ensuring proper **StorageClass** configuration.
+### 3. **Persistent Volumes Claim Configuration**
+Setting up **Persistent Volumes Claim (PVCs)** and ensuring data persistence across pod restarts was tricky, requiring debugging of PVCs and ensuring proper All the information is synchronized with everyone.
 
 ### 4. **Pod Autoscaling Issues**
 The **HorizontalPodAutoscaler** didn’t scale pods as expected initially. Troubleshooting involved checking resource requests, limits, CPU metrics, and ensuring the **metrics server** was correctly configured.
