@@ -32,3 +32,8 @@ variable "node_id" {
   description = "Node ID"
   type        = string
 }
+
+variable "public_subnet"{
+  description = "Public Subnet for bastion host"
+  type        = string
+}

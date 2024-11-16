@@ -54,8 +54,6 @@ module "sql" {
   db_password  = var.db_password
   gke_id      = module.gke.cluster_id
   node_id     =module.gke.node_id
+  public_subnet=module.vpc.subnet_name_public
 
-
-  
-  
 }

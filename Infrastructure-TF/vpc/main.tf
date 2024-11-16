@@ -23,6 +23,12 @@ resource "google_compute_subnetwork" "subnet" {
   }
 }
 
+resource "google_compute_subnetwork" "subnet-public" {
+  name      = "bastion-host-subnet"
+  network       = google_compute_network.vpc.name
+   ip_cidr_range = "192.168.0.0/28"
+}
+
 resource "google_compute_firewall" "allow_internal" {
   name    = "allow-internal"
   network = google_compute_network.vpc.name

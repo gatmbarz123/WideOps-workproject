@@ -34,8 +34,6 @@ resource "google_sql_database_instance" "wordpress" {
 
 }
 
-
-
 resource "google_sql_database" "wordpress" {
   name     = var.db_name
   instance = google_sql_database_instance.wordpress.name
@@ -45,4 +43,35 @@ resource "google_sql_user" "wordpress" {
   name     = var.db_user
   instance = google_sql_database_instance.wordpress.name
   password = var.db_password
+}
+
+#------------------------------------------------------------------------PRIVATE
+
+#------------------------------------------------------------------------PUBLIC
+
+resource "google_compute_instance" "bastion" {
+  name         = "bastion-host"
+  machine_type = "e2-micro"
+  zone         = "${var.region}-a"
+
+  boot_disk {
+    initialize_params {
+      image = "ubuntu-os-cloud/ubuntu-2204-lts"
+    }
+  }
+
+  network_interface {
+    network    =var.network_id    
+    subnetwork = var.public_subnet
+
+    access_config {
+    }
+  }
+
+  metadata_startup_script = <<-EOF
+    #!/bin/bash
+    apt-get update
+    apt-get install -y mysql-client
+  EOF
+
 }
