@@ -11,7 +11,7 @@ kind: Ingress
 metadata:
   name: wordpress-ingress
   annotations:
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 spec:
   ingressClassName: external-nginx
   rules:
@@ -25,3 +25,7 @@ spec:
             name: wordpress
             port:
               number: 80
+  tls:
+  - hosts:
+    - bar.bagum.shop  
+    secretName: wordpress-tls
