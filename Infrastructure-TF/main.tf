@@ -31,12 +31,12 @@ provider "google" {
 
 
 module "vpc" {
-  source = "./vpc"
+  source = "./modules/vpc"
   region = var.region
 }
 
 module "gke" {
-  source = "./gke"
+  source = "./modules/gke"
   
   cluster_name = var.cluster_name
   zone        = var.zone
@@ -45,7 +45,7 @@ module "gke" {
 }
 
 module "sql" {
-  source = "./sql"
+  source = "./modules/sql"
   
   network_id   = module.vpc.network_id
   region       = var.region
