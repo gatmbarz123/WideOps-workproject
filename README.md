@@ -25,8 +25,7 @@ This project involves designing and deploying a **scalable** and **secure** clou
    │
    ├── tf/                         
    │   ├── main.tf                 
-   │   ├── variables.tf            
-   │   ├── locals.tf           
+   │   ├── variables.tf                      
    │   ├── outpus.tf 
    │   ├── var.tfvars 
    │   ├── modules/
@@ -39,12 +38,12 @@ This project involves designing and deploying a **scalable** and **secure** clou
    │   │   │   ├── main.tf  # CLoudSQL MYSQL   
    │   │   │   ├── variables.tf     
    │   │   │   ├── outputs.tf       
-   │   │   │   └── data-.tf  
+   │   │   │   └── data.tf  
    │   │   ├── vpc/           
    │   │   │   ├── main.tf  # VPC, private subnets, NAT Gateway      
    │   │   │   ├── variables.tf    
    │   │   │   ├── outputs.tf       
-   │   │   │   └── data-sources.tf  
+   │   │   │   └── data.tf  
 
  ```
     
